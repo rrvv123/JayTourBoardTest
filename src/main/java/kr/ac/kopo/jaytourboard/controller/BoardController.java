@@ -6,21 +6,58 @@ import kr.ac.kopo.jaytourboard.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
-@RequestMapping({"/board/", "/Web_report/WebPage"})
+@RequestMapping({"/board/", "/Web_report"}) // 2개의 웹을 나누기 위해 사용하였는데, Request 도중 두개 동시에 잡는 현상이 일어나 해결이 필요.
 @RequiredArgsConstructor
 public class BoardController {
     private final BoardService boardService;
 
-    @GetMapping("/Web_report/FirstPage")
+    @GetMapping("/FirstPage")
     public String firstPage() {
         return "Web_report/FirstPage"; // templates/Web_report/FirstPage.html
+    }
+
+    @GetMapping("/Login")
+    public String login() {
+        return "Web_report/Login"; // templates/Web_report/Login.html
+    }
+
+    @GetMapping("/WebPage/1")
+    public String showEngPage() {
+        return "Web_report/WebPage/1"; // templates/Web_report/WebPage/1.html
+    }
+
+    @GetMapping("/WebPage/2")
+    public String showJpPage() {
+        return "Web_report/WebPage/2"; // templates/Web_report/WebPage/2.html
+    }
+
+    @GetMapping("/WebPage/3")
+    public String showFinPage() {
+        return "Web_report/WebPage/3"; // templates/Web_report/WebPage/3.html
+    }
+
+    @GetMapping("/WebPage/4")
+    public String showAusPage() {
+        return "Web_report/WebPage/4"; // templates/Web_report/WebPage/4.html
+    }
+
+    @GetMapping("/WebPage/5")
+    public String showFinMsgPage() {
+        return "Web_report/WebPage/5"; // templates/Web_report/WebPage/5
+    }
+
+    @GetMapping("/WebPage/6")
+    public String showAusMsgPage() {
+        return "Web_report/WebPage/6"; // templates/Web_report/WebPage/6
+    }
+
+    @GetMapping("/WebPage/images")
+    public String showTotalImgPage() {
+        return "Web_report/WebPage/images"; // templates/Web_report/WebPage/images
     }
 
     @GetMapping("/list")

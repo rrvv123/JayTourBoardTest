@@ -9,36 +9,53 @@
 
 <th:block th:replace="~{/layout/basic :: setContent(~{this::content})}">
     <th:block th:fragment="content">
-        <h1 class="mt-4">Board List Page
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">게시판 웹 사이트</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item"><a class="nav-link" href="FirstPage">메인</a></li>
+                    <li class="nav-item active"><a class="nav-link" href="/board/list">게시판</a></li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="/Web_report/Login">로그인</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/join">회원가입</a></li>
+                </ul>
+            </div>
+        </nav>
+
+        <h1 class="mt-4">공지사항 게시판
             <span>
-                    <a th:href="@{/board/register}">
-                        <button type="button" class="btn btn-outline-primary">Register</button>
-                    </a>
-                </span>
+                <a th:href="@{/board/register}">
+                    <button type="button" class="btn btn-outline-primary">등록하기</button>
+                </a>
+            </span>
+            <span>
+                <a th:href="@{/Web_report/FirstPage}">
+                    <button type="button" class="btn btn-outline-primary">메인홈-돌아가기</button>
+                </a>
+            </span>
         </h1>
-        <!--  검색 타입과 검색어를 입력할 수 있는 화면 구성 Start  -->
-        <form action="/board/list" method="get" id="searchForm">
+
+        <!-- 검색 타입과 검색어를 입력할 수 있는 화면 구성 Start -->
+        <form action="/board/list" method="get" id="searchForm" class="mb-4">
             <div class="input-group">
                 <input type="hidden" name="page" value="1">
-                <div class="input-group-prepend">
-                    <select name="type" class="form-select">
-                        <option th:selected="${pageRequestDTO.type == null}">검색 종류가 선택되지 않음</option>
-                        <option th:selected="${pageRequestDTO.type == 't'}" value="t">제목</option>
-                        <option th:selected="${pageRequestDTO.type == 'c'}" value="c">내용</option>
-                        <option th:selected="${pageRequestDTO.type == 'w'}" value="w">작성자</option>
-                        <option th:selected="${pageRequestDTO.type == 'tc'}" value="tc">제목+내용</option>
-                        <option th:selected="${pageRequestDTO.type == 'tcw'}" value="tcw">제목+내용+작성자</option>
-                    </select>
-                </div>
-                <input class="form-control" type="text" name="keyword" th:value="${pageRequestDTO.keyword}">
-                <div class="input-group-prepend">
-                    <button type="button" class="btn btn-outline-secondary btn-primary btn-search">Search</button>
-                    <button type="button" class="btn btn-outline-secondary btn-danger btn-cancel">Cancel</button>
-                </div>
+                <select name="type" class="form-select custom-select">
+                    <option th:selected="${pageRequestDTO.type == null}">검색 종류가 선택되지 않음</option>
+                    <option th:selected="${pageRequestDTO.type == 't'}" value="t">제목</option>
+                    <option th:selected="${pageRequestDTO.type == 'c'}" value="c">내용</option>
+                    <option th:selected="${pageRequestDTO.type == 'w'}" value="w">작성자</option>
+                    <option th:selected="${pageRequestDTO.type == 'tc'}" value="tc">제목+내용</option>
+                    <option th:selected="${pageRequestDTO.type == 'tcw'}" value="tcw">제목+내용+작성자</option>
+                </select>
+                <input class="form-control" type="text" name="keyword" th:value="${pageRequestDTO.keyword}" placeholder="검색어 입력">
+                <button type="button" class="btn btn-outline-secondary btn-primary btn-search">검색</button>
+                <button type="button" class="btn btn-outline-secondary btn-danger btn-cancel">취소</button>
             </div>
         </form>
-        <!-- 검색 화면 구성 End            -->
-        <table class="table table-striped">
+        <!-- 검색 화면 구성 End -->
+
+        <table class="table table-striped text-center">
             <thead>
             <tr>
                 <th scope="col">Bno</th>
@@ -60,7 +77,8 @@
             </tr>
             </tbody>
         </table>
-        <ul class="pagination h-100 justify-content-center align-items-center">
+
+        <ul class="pagination justify-content-center">
             <li class="page-item" th:if="${result.prev}">
                 <a class="page-link" th:href="@{/board/list(page=${result.start -1}, type=${pageRequestDTO.type}, keyword=${pageRequestDTO.keyword})}" tabindex="-1">Previous</a>
             </li>
@@ -73,15 +91,14 @@
         </ul>
     </th:block>
 </th:block>
+
 <!--모달창 구현-->
 <div class="modal" tabindex="-1" role="dialog">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="$('.modal').hide()">
-                    <span aria-hidden="true">&times;</span>
-                </button>
+                <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close" onclick="$('.modal').hide()"></button>
             </div>
             <div class="modal-body">
                 <p>Modal body text goes here.</p>
@@ -107,7 +124,7 @@
     });
 
     $(".btn-cancel").click(function (e) {
-        form.empty().submit();
+        form.empty().submit(); // 검색어 초기화
     });
 </script>
 
